@@ -16,8 +16,8 @@
         {{ tag }}
       </label>
     </div>
-
-    <ul class="champion-list">
+<transition name="fade" >
+    <ul class="champion-list" v-if="filteredChampions.length > 0">
       <li v-for="champion in filteredChampions" :key="champion.id" class="champion-item">
         <div class="champion-card" @click="showModal(champion)">
           <img :src="getChampionImage(champion.id)" alt="Champion Image" class="champion-image" />
@@ -28,6 +28,7 @@
         </div>
       </li>
     </ul>
+  </transition>
 
     <div v-if="isModalVisible" class="modal-overlay" @click="hideModal">
   <div class="modal" @click.stop>
@@ -281,6 +282,12 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   margin-right: 10px;
 }
 
+.tag-filters input {
+  border: none;
+  
+  
+}
+
 .champion-details {
   padding: 10px;
 }
@@ -293,4 +300,13 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   color: #bdbdbd;
   margin-top: 5px;
 }
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 </style>
