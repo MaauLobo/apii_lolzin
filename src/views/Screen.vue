@@ -1,8 +1,14 @@
 <template>
   <div class="champion-list-container">
     <h1>Campões League Of Legends</h1>
-    <input v-model="searchTerm" placeholder="Procurar Campeão..." class="search-input" />
-    
+    <div class="search-input-container">
+      <input v-model="searchTerm" placeholder="Procurar Campeão..." class="search-input" />
+      <div class="search-icon">
+        <i class="fas fa-search"></i>
+
+      </div>
+    </div>
+
     <!-- Lista de checkboxes para as tags -->
     <div class="tag-filters">
       <label v-for="tag in uniqueTags" :key="tag">
@@ -176,14 +182,22 @@ font-family: 'Roboto', sans-serif;
   align-items: center;
 }
 
+.ability-image {
+  width: 50px;  /* ajuste o tamanho conforme necessário */
+  height: 50px; /* ajuste o tamanho conforme necessário */
+  margin-right: 10px;
+}
+
+
 .modal {
-  background-color: #fefefe;
+  background: rgb(3,7,51);
+background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   padding: 20px;
   border-radius: 8px;
   max-width: 400px;
   width: 100%;
   position: relative;
-  color:black
+  color:white;
 }
 
 .close {
@@ -195,13 +209,49 @@ font-family: 'Roboto', sans-serif;
 }
 
 .search-input {
-  width: 50%;
-  padding: 10px;
-  margin-bottom: 20px;
+  position: relative;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  height: 50px;
+  outline: none;
+  border: none;
+  background: #1a1a1a; /* Cor de fundo escura */
+  color: white;
+  text-shadow: 0 0 10px #1a1a1a; /* Sombra do texto com a cor de fundo escura */
+  padding: 0 80px 0 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 25px 0 #1a1a1a, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
+  transition: all 1s;
+  opacity: 1;
+  z-index: 5;
+  font-weight: bolder;
+  letter-spacing: 0.1em;
+  font-family: 'Inconsolata', monospace;
 }
+
+.search-input:hover {
+  cursor: pointer;
+}
+
+
+
+.search-input::placeholder {
+  color: white;
+  opacity: 0.5;
+  font-weight: bolder;
+}
+
+
+
+
 
 .tag-filters {
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 .tag-filters label {
