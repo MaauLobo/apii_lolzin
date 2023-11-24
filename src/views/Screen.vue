@@ -30,20 +30,25 @@
     </ul>
 
     <div v-if="isModalVisible" class="modal-overlay" @click="hideModal">
-      <div class="modal" @click.stop>
-        <span class="close" @click="hideModal">&times;</span>
-        <h2>{{ modalChampion.name }}</h2>
-        <p>{{ modalChampion.title }}</p>
-        <div v-if="modalChampionAbilities">
-          <div v-for="(ability, index) in modalChampionAbilities" :key="index">
-            <img :src="getAbilityImage(ability.id)" alt="Ability Image" class="ability-image" />
-            <strong>{{ ability.name }}</strong> - <span v-html="formatAbilityDescription(ability.description)"></span>
-          </div>
+  <div class="modal" @click.stop>
+    <span class="close" @click="hideModal">&times;</span>
+    <h2>{{ modalChampion.name }}</h2>
+    <p>{{ modalChampion.title }}</p>
+
+    <!-- Adicione um scroll para o conteúdo do modal -->
+    <div class="modal-content">
+      <div v-if="modalChampionAbilities">
+        <div v-for="(ability, index) in modalChampionAbilities" :key="index">
+          <img :src="getAbilityImage(ability.id)" alt="Ability Image" class="ability-image" />
+          <strong>{{ ability.name }}</strong> - <span v-html="formatAbilityDescription(ability.description)"></span>
         </div>
-        <p><strong>Descrição:</strong> {{ modalChampion.blurb }}</p>
-        <p><strong>Tags:</strong> {{ modalChampion.tags.join(', ') }}</p>
       </div>
+      <p><strong>Descrição:</strong> {{ modalChampion.blurb }}</p>
+      <p><strong>Tags:</strong> {{ modalChampion.tags.join(', ') }}</p>
     </div>
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -188,6 +193,24 @@ font-family: 'Roboto', sans-serif;
   margin-right: 10px;
 }
 
+.modal-content {
+  max-height: 300px; /* Defina a altura máxima conforme necessário */
+  overflow-y: auto; /* Habilita a barra de rolagem vertical quando necessário */
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px; /* Largura da barra de rolagem */
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: #888888; /* Cor do botão de rolagem */
+  border-radius: 4px; /* Borda arredondada do botão de rolagem */
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background-color: rgb(38, 19, 112)1)241); /* Cor da faixa de rolagem */
+}
+
 
 .modal {
   background: rgb(3,7,51);
@@ -209,13 +232,13 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 .search-input {
-  position: relative;
+  
   margin: auto;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 300px;
+  width: 30%;
   height: 50px;
   outline: none;
   border: none;
