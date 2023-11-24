@@ -123,11 +123,34 @@ export default {
 
 <style>
 /* Estilos globais aqui */
+html{
+background: rgb(3,7,51);
+background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
+color: white;
+font-family: 'Roboto', sans-serif;
+
+
+}
+
+
 .champion-list-container {
-  max-width: 300px;
+  max-width: 100%; /* Ajuste a largura conforme necessário */
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+}
+
+.champion-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; /* Garante que os itens possam envolver para a próxima linha se não houver espaço suficiente */
+  justify-content: space-around; /* Distribui os itens uniformemente ao longo do contêiner */
+}
+
+.champion-item {
+  flex: 0 0 200px; /* Largura fixa dos itens, ajuste conforme necessário */
+  margin-bottom: 20px;
 }
 
 .champion-card {
@@ -135,10 +158,10 @@ export default {
   cursor: pointer;
 }
 
-.ability-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+.champion-image {
+  width: 100%;
+  height: auto;
+  
 }
 
 .modal-overlay {
@@ -160,6 +183,7 @@ export default {
   max-width: 400px;
   width: 100%;
   position: relative;
+  color:black
 }
 
 .close {
@@ -171,7 +195,7 @@ export default {
 }
 
 .search-input {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   margin-bottom: 20px;
 }
@@ -184,25 +208,6 @@ export default {
   margin-right: 10px;
 }
 
-.champion-list {
-  list-style: none;
-  padding: 0;
-}
-
-.champion-item {
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.champion-image {
-  width: 100%;
-  height: auto;
-  border-bottom: 1px solid #ccc;
-}
-
 .champion-details {
   padding: 10px;
 }
@@ -212,7 +217,7 @@ export default {
 }
 
 .champion-title {
-  color: #666;
+  color: #bdbdbd;
   margin-top: 5px;
 }
 </style>
