@@ -1,6 +1,6 @@
 <template>
   <div class="champion-list-container">
-    <h1>Campões League Of Legends</h1>
+    <h1>Campeões League Of Legends</h1>
     <button @click="pickRandomChampion">Sortear Campeão</button>
     <div class="search-input-container">
       <input v-model="searchTerm" placeholder="Procurar Campeão..." class="search-input" />
