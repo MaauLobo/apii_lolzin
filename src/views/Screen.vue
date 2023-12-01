@@ -1,11 +1,11 @@
 <template>
   <div class="champion-list-container">
     <h1>Campões League Of Legends</h1>
+    <button @click="pickRandomChampion">Sortear Campeão</button>
     <div class="search-input-container">
       <input v-model="searchTerm" placeholder="Procurar Campeão..." class="search-input" />
       <div class="search-icon">
         <i class="fas fa-search"></i>
-
       </div>
     </div>
 
@@ -16,40 +16,43 @@
         {{ tag }}
       </label>
     </div>
-<transition name="fade" >
-    <ul class="champion-list" v-if="filteredChampions.length > 0">
-      <li v-for="champion in filteredChampions" :key="champion.id" class="champion-item">
-        <div class="champion-card" @click="showModal(champion)">
-          <img :src="getChampionImage(champion.id)" alt="Champion Image" class="champion-image" />
-          <div class="champion-details">
-            <strong class="champion-name">{{ champion.name }}</strong>
-            <p class="champion-title">{{ champion.title }}</p>
+    <transition name="fade">
+      <ul class="champion-list" v-if="filteredChampions.length > 0">
+        <li v-for="champion in filteredChampions" :key="champion.id" class="champion-item">
+          <div class="champion-card" @click="showModal(champion)">
+            <img :src="getChampionImage(champion.id)" alt="Champion Image" class="champion-image" />
+            <div class="champion-details">
+              <strong class="champion-name">{{ champion.name }}</strong>
+              <p class="champion-title">{{ champion.title }}</p>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-  </transition>
+        </li>
+      </ul>
+    </transition>
 
     <div v-if="isModalVisible" class="modal-overlay" @click="hideModal">
-  <div class="modal" @click.stop>
-    <span class="close" @click="hideModal">&times;</span>
-    <h2>{{ modalChampion.name }}</h2>
-    <p>{{ modalChampion.title }}</p>
+      <div class="modal" @click.stop>
+        <span class="close" @click="hideModal">&times;</span>
+        <div class="champion-modal-header">
+          <img :src="getChampionImage(modalChampion.id)" alt="Champion Icon" class="champion-modal-icon" />
+          <h2>{{ modalChampion.name }}</h2>
+        </div>
+        <p>{{ modalChampion.title }}</p>
 
-    <!-- Adicione um scroll para o conteúdo do modal -->
-    <div class="modal-content">
-      <div v-if="modalChampionAbilities">
-        <div v-for="(ability, index) in modalChampionAbilities" :key="index">
-          <img :src="getAbilityImage(ability.id)" alt="Ability Image" class="ability-image" />
-          <strong>{{ ability.name }}</strong> - <span v-html="formatAbilityDescription(ability.description)"></span>
+        <!-- Adicione um scroll para o conteúdo do modal -->
+        <div class="modal-content">
+          <div v-if="modalChampionAbilities">
+            <div v-for="(ability, index) in modalChampionAbilities" :key="index">
+              <img :src="getAbilityImage(ability.id)" alt="Ability Image" class="ability-image" />
+              <strong>{{ ability.name }}</strong> -
+              <span v-html="formatAbilityDescription(ability.description)"></span>
+            </div>
+          </div>
+          <p><strong>Descrição:</strong> {{ modalChampion.blurb }}</p>
+          <p><strong>Tags:</strong> {{ modalChampion.tags.join(', ') }}</p>
         </div>
       </div>
-      <p><strong>Descrição:</strong> {{ modalChampion.blurb }}</p>
-      <p><strong>Tags:</strong> {{ modalChampion.tags.join(', ') }}</p>
     </div>
-  </div>
-</div>
-
   </div>
 </template>
 
@@ -67,9 +70,11 @@ export default {
   },
   computed: {
     filteredChampions() {
-      return this.champions.filter((champion) =>
-        champion.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-        (this.selectedTags.length === 0 || champion.tags.some(tag => this.selectedTags.includes(tag)))
+      return this.champions.filter(
+        (champion) =>
+          champion.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+          (this.selectedTags.length === 0 ||
+            champion.tags.some((tag) => this.selectedTags.includes(tag)))
       );
     },
     uniqueTags() {
@@ -129,24 +134,26 @@ export default {
       this.modalChampion = null;
       this.modalChampionAbilities = null;
     },
+    pickRandomChampion() {
+      const randomIndex = Math.floor(Math.random() * this.filteredChampions.length);
+      const randomChampion = this.filteredChampions[randomIndex];
+      this.showModal(randomChampion);
+    },
   },
 };
 </script>
 
 <style>
 /* Estilos globais aqui */
-html{
-background: rgb(3,7,51);
-background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
-color: white;
-font-family: 'Roboto', sans-serif;
-
-
+html {
+  background: rgb(3, 7, 51);
+  background: radial-gradient(circle, rgba(3, 7, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
-
 .champion-list-container {
-  max-width: 100%; /* Ajuste a largura conforme necessário */
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
@@ -156,12 +163,12 @@ font-family: 'Roboto', sans-serif;
   list-style: none;
   padding: 0;
   display: flex;
-  flex-wrap: wrap; /* Garante que os itens possam envolver para a próxima linha se não houver espaço suficiente */
-  justify-content: space-around; /* Distribui os itens uniformemente ao longo do contêiner */
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .champion-item {
-  flex: 0 0 200px; /* Largura fixa dos itens, ajuste conforme necessário */
+  flex: 0 0 200px;
   margin-bottom: 20px;
 }
 
@@ -173,7 +180,6 @@ font-family: 'Roboto', sans-serif;
 .champion-image {
   width: 100%;
   height: auto;
-  
 }
 
 .modal-overlay {
@@ -189,39 +195,38 @@ font-family: 'Roboto', sans-serif;
 }
 
 .ability-image {
-  width: 50px;  /* ajuste o tamanho conforme necessário */
-  height: 50px; /* ajuste o tamanho conforme necessário */
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
 }
 
 .modal-content {
-  max-height: 300px; /* Defina a altura máxima conforme necessário */
-  overflow-y: auto; /* Habilita a barra de rolagem vertical quando necessário */
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .modal-content::-webkit-scrollbar {
-  width: 8px; /* Largura da barra de rolagem */
+  width: 8px;
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-  background-color: #888888; /* Cor do botão de rolagem */
-  border-radius: 4px; /* Borda arredondada do botão de rolagem */
+  background-color: #888888;
+  border-radius: 4px;
 }
 
 .modal-content::-webkit-scrollbar-track {
-  background-color: rgb(38, 19, 112)1)241); /* Cor da faixa de rolagem */
+  background-color: rgb(38, 19, 112);
 }
 
-
 .modal {
-  background: rgb(3,7,51);
-background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
+  background: rgb(3, 7, 51);
+  background: radial-gradient(circle, rgba(3, 7, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
   padding: 20px;
   border-radius: 8px;
   max-width: 400px;
   width: 100%;
   position: relative;
-  color:white;
+  color: white;
 }
 
 .close {
@@ -233,7 +238,6 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 .search-input {
-  
   margin: auto;
   top: 0;
   right: 0;
@@ -243,9 +247,9 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   height: 50px;
   outline: none;
   border: none;
-  background: #1a1a1a; /* Cor de fundo escura */
+  background: #1a1a1a;
   color: white;
-  text-shadow: 0 0 10px #1a1a1a; /* Sombra do texto com a cor de fundo escura */
+  text-shadow: 0 0 10px #1a1a1a;
   padding: 0 80px 0 20px;
   border-radius: 30px;
   box-shadow: 0 0 25px 0 #1a1a1a, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
@@ -261,17 +265,11 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   cursor: pointer;
 }
 
-
-
 .search-input::placeholder {
   color: white;
   opacity: 0.5;
   font-weight: bolder;
 }
-
-
-
-
 
 .tag-filters {
   margin-bottom: 10px;
@@ -284,8 +282,6 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
 
 .tag-filters input {
   border: none;
-  
-  
 }
 
 .champion-details {
@@ -301,12 +297,25 @@ background: radial-gradient(circle, rgba(3,7,51,1) 0%, rgba(0,0,0,1) 100%);
   margin-top: 5px;
 }
 
+.champion-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.fade-enter-active, .fade-leave-active {
+.champion-modal-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to {
+
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
-
 </style>
